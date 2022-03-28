@@ -18,3 +18,4 @@ char *_memset(char *s, char b, unsigned int n)
 		s[counter] = b;
 	}
 	return (s);
+}
