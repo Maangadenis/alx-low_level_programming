@@ -2,49 +2,51 @@
 #include <stdlib.h>
 
 /**
- * wrdcnt - counts the number of words in a string
- * @s: string to count
+ * argstostr - concatenates all the arguments of a program.
+ * @ac: argument count.
+ * @av: argument vector.
  *
- * Return: int of number of words
+ * Return: pointer of an array of char
  */
-int wrdcnt(char *s)
+char *argstostr(int ac, char **av)
 {
-	int i, n = 0;
+	char *aout;
+	int c, i, j, ia;
 
-	for (i = 0; s[i]; i++)
+	if (ac == 0)
+		return (NULL);
+
+	for (c = i = 0; i < ac; i++)
 	{
-		if (s[i] == ' ')
-		{
-			if (s[i + 1] != ' ' && s[i + 1] != '\0')
-				n++;
-		}
-		else if (i == 0)
-			n++;
+		if (av[i] == NULL)
+			return (NULL);
+
+		for (j = 0; av[i][j] != '\0'; j++)
+			c++;
+		c++;
 	}
-	n++;
-	return (n);
+
+	aout = malloc((c + 1) * sizeof(char));
+
+	if (aout == NULL)
+	{
+		free(aout);
+		return (NULL);
+	}
+
+	for (i = j = ia = 0; ia < c; j++, ia++)
+	{
+		if (av[i][j] == '\0')
+		{
+			aout[ia] = '\n';
+			i++;
+			ia++;
+			j = 0;
+		}
+		if (ia < c - 1)
+			aout[ia] = av[i][j];
+	}
+	aout[ia] = '\0';
+
+	return (aout);
 }
-
-/**
- * strtow - splits a string into words
- * @str: string to split
- *
- * Return: pointer to an array of strings
- */
-char **strtow(char *str)
-{
-	int i, j, k, l, n = 0, wc = 0;
-	char **w;
-
-	if (str == NULL || *str == '\0')
-		return (NULL);
-	n = wrdcnt(str);
-	if (n == 1)
-		return (NULL);
-	w = (char **)malloc(n * sizeof(char *));
-	if (w == NULL)
-		return (NULL);
-	w[n - 1] = NULL;
-	i = 0;
-	while (str[i])
-
