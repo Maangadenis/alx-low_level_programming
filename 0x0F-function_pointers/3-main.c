@@ -2,25 +2,31 @@
 #include <stdlib.h>
 #include <stdio.h>
 /**
-  * main - entry point
-  * @argc: # of args
-  * @argv: array of pointers to names of args
-  * Return: 0
-  */
-int main(int argc, char **argv)
+ * main - performs simple operations
+ * @argc: number of arguments passed
+ * @argv: array of pointers to arguments
+ *
+ * Return: always 0
+ */
+int main(int argc, char *argv[])
 {
-	/* input checking */
+	int a, b, c;
+	int (*f)(int, int);
+
 	if (argc != 4)
 	{
 		printf("Error\n");
 		exit(98);
 	}
-	if ((*argv[2] == '/' || *argv[2] == '%') && atoi(argv[3]) == 0)
+	a = atoi(argv[1]);
+	b = atoi(argv[3]);
+	f = get_op_func(argv[2]);
+	if (f == NULL)
 	{
 		printf("Error\n");
-		exit(100);
+		exit(99);
 	}
-	/* calling get_op_func with arguments */
-	printf("%d\n", get_op_func(argv[2])(atoi(argv[1]), atoi(argv[3])));
+	c = f(a, b);
+	printf("%d\n", c);
 	return (0);
 }
